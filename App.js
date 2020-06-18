@@ -1,19 +1,39 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, Text, View, StatusBar} from 'react-native';
+import store from './src/redux/redux-store'
+import {Provider} from "react-redux";
+import ListScreenContainer from "./src/components/ListScreenContainer";
+import {NavigationContainer} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {createStackNavigator} from "@react-navigation/stack";
+import ImageScreen from "./src/components/ImageScreen";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
+const Stack = createStackNavigator();
+
+class App extends Component {
+    render() {
+        return (
+            <Provider store={store}>
+                <StatusBar hidden={true} />
+                <View style={styles.container}>
+                    <NavigationContainer >
+                        <Stack.Navigator screenOptions={{
+                            headerShown:false
+                        }} >
+                            <Stack.Screen name = 'List' component ={ListScreenContainer} />
+                            <Stack.Screen name = 'Image' component ={ImageScreen} />
+                            </Stack.Navigator>
+                    </NavigationContainer>
+                </View>
+            </Provider>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        flex: 1
+    },
 });
+
+export default App;
